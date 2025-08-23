@@ -26,114 +26,104 @@ class MyWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('First App', style: TextStyle(color: Colors.white)),
-        centerTitle: false,
-        backgroundColor: Colors.black,
-      ),
+      //appBar: AppBar(
+      //title: Text('Introduce_Myself'),
+      //centerTitle: true,
+      //backgroundColor: Colors.blueGrey,
+      //),
       body: Center(
         child: Stack(
           children: [
-            Container(
-              width: 120,
-              height: 300,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(20),
-                color: Colors.black,
+            Align(
+              alignment: Alignment.center,
+              child: Container(
+                width: 550,
+                height: 1100,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(20),
+                  color: Colors.blueGrey,
+                ),
               ),
             ),
-
-            Positioned(
-              top: 20,
-              left: 20,
+            Align(
+              alignment: Alignment.center,
               child: Container(
-                width: 80,
-                height: 80,
+                width: 500,
+                height: 1000,
                 decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: Colors.red,
+                  borderRadius: BorderRadius.circular(20),
+                  color: Colors.black,
+                ),
+              ),
+            ),
+            Align(
+              alignment: Alignment.topCenter,
+              child: Padding(
+                padding: const EdgeInsets.only(top: 50),
+                child: Container(
+                  width: 250,
+                  height: 250,
+                  child: ClipOval(
+                    child: Image.asset(
+                      "9e49385d-e0a8-4b92-a130-9931e35dfea4.jpg",
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            Align(
+              alignment: Alignment.topCenter,
+              child: Padding(
+                padding: const EdgeInsets.only(top: 330),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                      'ไชยภัทร ทาโทน',
+                      style: TextStyle(fontSize: 25, color: Colors.white),
+                    ),
+                    SizedBox(height: 10),
+                    Text(
+                      '660710592',
+                      style: TextStyle(fontSize: 25, color: Colors.white),
+                    ),
+                    SizedBox(height: 10),
+                    Text(
+                      'วิทยาการคอมพิวเตอร์',
+                      style: TextStyle(fontSize: 25, color: Colors.white),
+                    ),
+                    SizedBox(height: 10),
+                    Text(
+                      'เป็นคนอารมณ์ร้อนง่าย โกรธง่ายแต่ก็หายเร็ว',
+                      style: TextStyle(fontSize: 25, color: Colors.red),
+                    ),
+                    SizedBox(height: 10),
+                    Text(
+                      'เป็นขี้เกียจต้องใกล้วันส่งเท่านั้นถึงจะรีบขยัน',
+                      style: TextStyle(fontSize: 25, color: Colors.red),
+                    ),
+                  ],
                 ),
               ),
             ),
             Positioned(
-              top: 110,
-              left: 20,
-              child: Container(
-                width: 80,
-                height: 80,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: Colors.yellow,
-                ),
-              ),
+              top: 580,
+              left: 600,
+              child: Icon(Icons.facebook, size: 80, color: Colors.white),
             ),
             Positioned(
-              top: 200,
-              left: 20,
-              child: Container(
-                width: 80,
-                height: 80,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: Colors.green,
-                ),
+              top: 580,
+              left: 720,
+              child: Image.network(
+                'https://static.vecteezy.com/system/resources/previews/023/986/611/non_2x/line-app-logo-line-app-logo-transparent-line-app-icon-transparent-free-free-png.png',
+                width: 90,
+                height: 90,
               ),
             ),
           ],
         ),
       ),
-      /*Column(
-        children: [
-          SizedBox(height: 20),
-          Row(
-            children: [
-              SizedBox(width: 20),
-              Container(height: 100, width: 100, color: Colors.red),
-              SizedBox(width: 20),
-              Container(height: 100, width: 100, color: Colors.green),
-              SizedBox(width: 20),
-              Container(height: 100, width: 100, color: Colors.blue),
-            ],
-          ),
-          SizedBox(height: 20),
-          Row(
-            children: [
-              SizedBox(width: 20),
-              Expanded(
-                flex: 1,
-                child: Container(height: 100, color: Colors.yellow),
-              ),
-              SizedBox(width: 20),
-              Expanded(
-                flex: 2,
-                child: Container(height: 100, color: Colors.purple),
-              ),
-              SizedBox(width: 20),
-            ],
-          ),
-        ],
-      ),*/
-      /*Center(
-        child: Container(
-          width: 250,
-          height: 250,
-          color: Colors.blue,
-          child:
-          Center(
-            child: Text(
-              'Hello, Chaiyaphat Thathon 660710592',
-              style: TextStyle(fontSize: 30),textAlign: TextAlign.center,
-            ),
-          ),
-        ) /*Text(
-          "Hello world!",
-          style: TextStyle(
-            fontSize: 32,
-            color: Colors.red,
-            fontWeight: FontWeight.bold,
-          ),
-        ),*/,
-      ),*/
     );
   }
 }
