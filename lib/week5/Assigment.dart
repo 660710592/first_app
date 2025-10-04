@@ -1,6 +1,4 @@
 import 'dart:convert';
-
-import 'package:first_app/Model/User.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
@@ -12,8 +10,8 @@ class Assigment extends StatefulWidget {
 }
 
 class _AssigmentState extends State<Assigment> {
-  User? userEmployee;
   List<User> listUser = [];
+
   Future<void> fetchData() async {
     try {
       var response = await http.get(
@@ -32,137 +30,175 @@ class _AssigmentState extends State<Assigment> {
     }
   }
 
-  Future<void> createProduct() async {
+  Future<void> createProduct(String name, String desc, double price) async {
     try {
       var response = await http.post(
         Uri.parse("http://localhost:8001/products"),
         headers: {"Content-Type": "application/json"},
-        body: jsonEncode({
-          "name": "iPhone 5s",
-          "description": "Apple smartphone",
-          "price": 21999.00,
-        }),
+        body: jsonEncode({"name": name, "description": desc, "price": price}),
       );
       if (response.statusCode == 201) {
+        fetchData();
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text('Product created successfully!'),
-            duration: Duration(seconds: 2),
             backgroundColor: Colors.green,
           ),
         );
-      } else {
-        throw Exception("Failed to load products");
       }
     } catch (e) {
       print(e);
     }
   }
 
-  Future<void> updateProduct({dynamic idUpdate = "15"}) async {
+  Future<void> updateProduct(
+    int id,
+    String name,
+    String desc,
+    double price,
+  ) async {
     try {
       var response = await http.put(
-        Uri.parse("http://localhost:8001/products/$idUpdate"),
+        Uri.parse("http://localhost:8001/products/$id"),
         headers: {"Content-Type": "application/json"},
-        body: jsonEncode({
-          "name": "iPhone 5 plus",
-          "description": "Apple smartphone",
-          "price": 34900.00,
-        }),
+        body: jsonEncode({"name": name, "description": desc, "price": price}),
       );
       if (response.statusCode == 200) {
+        fetchData();
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text('Update created successfully!'),
-            duration: Duration(seconds: 2),
+            content: Text('Product updated successfully!'),
             backgroundColor: Colors.green,
           ),
         );
-      } else {
-        throw Exception("Failed to load products");
       }
     } catch (e) {
       print(e);
     }
   }
 
-  Future<void> deleteProduct({dynamic idDelete = "6"}) async {
+  Future<void> deleteProduct(int id) async {
     try {
       var response = await http.delete(
-        Uri.parse("http://localhost:8001/products/$idDelete"),
+        Uri.parse("http://localhost:8001/products/$id"),
       );
       if (response.statusCode == 200) {
+        await fetchData();
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text('Delete created successfully!'),
-            duration: Duration(seconds: 2),
-            backgroundColor: Colors.green,
+            content: Text('Product deleted successfully!'),
+            backgroundColor: Colors.red,
           ),
         );
-      } else {
-        throw Exception("Failed to delete products");
       }
     } catch (e) {
       print(e);
     }
+  }
+
+  void openForm({User? user}) {
+    final nameController = TextEditingController(text: user?.name ?? "");
+    final descController = TextEditingController(text: user?.description ?? "");
+    final priceController = TextEditingController(
+      text: user?.price.toString() ?? "",
+    );
+
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text(user == null ? "Create Product" : "Update Product"),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              TextField(
+                controller: nameController,
+                decoration: InputDecoration(labelText: "Name"),
+              ),
+              TextField(
+                controller: descController,
+                decoration: InputDecoration(labelText: "Description"),
+              ),
+              TextField(
+                controller: priceController,
+                decoration: InputDecoration(labelText: "Price"),
+                keyboardType: TextInputType.number,
+              ),
+            ],
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context),
+              child: Text("Cancel"),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                final name = nameController.text;
+                final desc = descController.text;
+                final price = double.tryParse(priceController.text) ?? 0.0;
+
+                if (user == null) {
+                  createProduct(name, desc, price);
+                } else {
+                  updateProduct(user.id, name, desc, price);
+                }
+                Navigator.pop(context);
+              },
+              child: Text(user == null ? "Create" : "Update"),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    fetchData();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('API Example'), centerTitle: true),
-      body: Center(
-        child: Column(
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
+      appBar: AppBar(
+        title: Text('API Example'),
+        centerTitle: true,
+        backgroundColor: Colors.cyan,
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () => openForm(),
+        child: Icon(Icons.add),
+      ),
+      body: ListView.separated(
+        itemBuilder: (BuildContext context, int index) {
+          final item = listUser[index];
+          return ListTile(
+            leading: CircleAvatar(child: Text("${item.id}")),
+            title: Text(item.name),
+            subtitle: Text('Description : ${item.description}'),
+            trailing: Row(
+              mainAxisSize: MainAxisSize.min,
               children: [
-                ElevatedButton(
-                  onPressed: () {
-                    fetchData();
-                  },
-                  child: Text('Get'),
+                Text(
+                  "Price: ${item.price}",
+                  style: TextStyle(color: Colors.green),
                 ),
-                ElevatedButton(
-                  onPressed: () {
-                    createProduct();
-                  },
-                  child: Text('Post'),
+                SizedBox(width: 8),
+                IconButton(
+                  icon: Icon(Icons.edit, color: Colors.black),
+                  onPressed: () => openForm(user: item),
                 ),
-                ElevatedButton(
-                  onPressed: () {
-                    updateProduct();
-                  },
-                  child: Text('Put'),
-                ),
-                ElevatedButton(
-                  onPressed: () {
-                    deleteProduct();
-                  },
-                  child: Text('Delete'),
+                IconButton(
+                  icon: Icon(Icons.delete, color: Colors.red),
+                  onPressed: () => deleteProduct(item.id),
                 ),
               ],
             ),
-            Expanded(
-              child: ListView.separated(
-                itemBuilder: (BuildContext context, int index) {
-                  return ListTile(
-                    leading: Text('${listUser[index].id}'),
-                    title: Text('Name : ${listUser[index].name}'),
-                    trailing: Text(
-                      'Description : ${listUser[index].description}',
-                    ),
-                    subtitle: Text('Price : ${listUser[index].price}'),
-                  );
-                },
-                separatorBuilder: (BuildContext context, int index) {
-                  return Divider();
-                },
-                itemCount: listUser.length,
-              ),
-            ),
-          ],
-        ),
+          );
+        },
+        separatorBuilder: (BuildContext context, int index) => Divider(),
+        itemCount: listUser.length,
       ),
     );
   }
@@ -174,11 +210,11 @@ class User {
   final String description;
   final double price;
 
-  User(this.id, this.name, this.description, this.price) {}
+  User(this.id, this.name, this.description, this.price);
 
   User.fromJson(Map<String, dynamic> json)
     : id = json['id'],
       name = json['name'],
       description = json['description'],
-      price = json['price'];
+      price = (json['price'] as num).toDouble();
 }
