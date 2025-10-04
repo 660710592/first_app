@@ -5,6 +5,9 @@ import 'package:flutter/material.dart';
 //import 'package:flutter/material.dart';
 import 'package:first_app/Form/form_example.dart';
 import 'package:first_app/AirQualityApi.dart';
+import 'package:first_app/week5/ApiExample.dart';
+import 'package:first_app/week5/ApiExamplelist.dart';
+import 'package:first_app/week5/Assigment.dart';
 
 void main() {
   runApp(const MyApp());
@@ -28,7 +31,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
       ),
       debugShowCheckedModeBanner: false,
-      home: AirQualityApi()
+      home: Assigment()
     );
   }
 }
