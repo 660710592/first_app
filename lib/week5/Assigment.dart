@@ -21,7 +21,9 @@ class _AssigmentState extends State<Assigment> {
       );
       if (response.statusCode == 200) {
         List<dynamic> jsonList = jsonDecode(response.body);
-        listUser = jsonList.map((item) => User.fromJson(item)).toList();
+        setState(() {
+          listUser = jsonList.map((item) => User.fromJson(item)).toList();
+        });
       } else {
         throw Exception("Failed to load products");
       }
@@ -42,7 +44,13 @@ class _AssigmentState extends State<Assigment> {
         }),
       );
       if (response.statusCode == 201) {
-        //code somthing...
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Product created successfully!'),
+            duration: Duration(seconds: 2),
+            backgroundColor: Colors.green,
+          ),
+        );
       } else {
         throw Exception("Failed to load products");
       }
@@ -51,7 +59,7 @@ class _AssigmentState extends State<Assigment> {
     }
   }
 
-  Future<void> updateProduct({dynamic idUpdate = "100"}) async {
+  Future<void> updateProduct({dynamic idUpdate = "15"}) async {
     try {
       var response = await http.put(
         Uri.parse("http://localhost:8001/products/$idUpdate"),
@@ -63,7 +71,13 @@ class _AssigmentState extends State<Assigment> {
         }),
       );
       if (response.statusCode == 200) {
-        //ScaffoldMessenger
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Update created successfully!'),
+            duration: Duration(seconds: 2),
+            backgroundColor: Colors.green,
+          ),
+        );
       } else {
         throw Exception("Failed to load products");
       }
@@ -78,7 +92,13 @@ class _AssigmentState extends State<Assigment> {
         Uri.parse("http://localhost:8001/products/$idDelete"),
       );
       if (response.statusCode == 200) {
-        //code somthing...
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Delete created successfully!'),
+            duration: Duration(seconds: 2),
+            backgroundColor: Colors.green,
+          ),
+        );
       } else {
         throw Exception("Failed to delete products");
       }
@@ -94,22 +114,6 @@ class _AssigmentState extends State<Assigment> {
       body: Center(
         child: Column(
           children: [
-            ListView.separated(
-              itemBuilder: (BuildContext context, int index) {
-                return ListTile(
-                  leading: Text('${listUser[index].id}'),
-                  title: Text('Name : ${listUser[index].name}'),
-                  trailing: Text(
-                    'Description : ${listUser[index].description}',
-                  ),
-                  subtitle: Text('Price : ${listUser[index].price}'),
-                );
-              },
-              separatorBuilder: (BuildContext context, int index) {
-                return Divider();
-              },
-              itemCount: listUser.length,
-            ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
@@ -138,6 +142,24 @@ class _AssigmentState extends State<Assigment> {
                   child: Text('Delete'),
                 ),
               ],
+            ),
+            Expanded(
+              child: ListView.separated(
+                itemBuilder: (BuildContext context, int index) {
+                  return ListTile(
+                    leading: Text('${listUser[index].id}'),
+                    title: Text('Name : ${listUser[index].name}'),
+                    trailing: Text(
+                      'Description : ${listUser[index].description}',
+                    ),
+                    subtitle: Text('Price : ${listUser[index].price}'),
+                  );
+                },
+                separatorBuilder: (BuildContext context, int index) {
+                  return Divider();
+                },
+                itemCount: listUser.length,
+              ),
             ),
           ],
         ),
