@@ -170,6 +170,7 @@ class _AssigmentState extends State<Assigment> {
         onPressed: () => openForm(),
         child: Icon(Icons.add),
       ),
+
       body: ListView.separated(
         itemBuilder: (BuildContext context, int index) {
           final item = listUser[index];
@@ -186,11 +187,11 @@ class _AssigmentState extends State<Assigment> {
                 ),
                 SizedBox(width: 8),
                 IconButton(
-                  icon: Icon(Icons.edit, color: Colors.black),
+                  icon: Icon(Icons.edit_document, color: Colors.yellow),
                   onPressed: () => openForm(user: item),
                 ),
                 IconButton(
-                  icon: Icon(Icons.delete, color: Colors.red),
+                  icon: Icon(Icons.delete_sweep_rounded, color: Colors.red),
                   onPressed: () => deleteProduct(item.id),
                 ),
               ],
