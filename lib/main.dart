@@ -9,6 +9,8 @@ import 'package:first_app/week5/ApiExample.dart';
 import 'package:first_app/week5/ApiExamplelist.dart';
 import 'package:first_app/week5/Assigment.dart';
 import 'package:first_app/Week6/components/Page/simple_custom_widget.dart';
+import 'package:first_app/Week6/components/Page/animation_page.dart';
+import 'package:first_app/Week6/components/Assigment/traffic_light_page.dart';
 
 void main() {
   runApp(const MyApp());
@@ -27,17 +29,23 @@ class MyApp extends StatelessWidget {
       // '/second': (context) => const SecondPage(),
       // '/counter': (context) => const CounterWidget(),
       //},
-      theme: ThemeData(
-        useMaterial3: true,
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
+      theme: ThemeData.light().copyWith(
+        scaffoldBackgroundColor: Colors.white,
+        textTheme: const TextTheme(bodyMedium: TextStyle(color: Colors.black)),
+        appBarTheme: const AppBarTheme(backgroundColor: Colors.blue),
       ),
-      debugShowCheckedModeBanner: false,
-      home: SimpleCustomWidget(),
+      darkTheme: ThemeData.dark().copyWith(
+        scaffoldBackgroundColor: Colors.blueGrey[900],
+        textTheme: const TextTheme(bodyMedium: TextStyle(color: Colors.white)),
+        appBarTheme: AppBarTheme(backgroundColor: Colors.grey[800]),
+      ),
+      themeMode: ThemeMode.light,
+      home: TrafficLightPage(),
     );
   }
 }
 
-class MyWidget extends StatelessWidget {
+/*class MyWidget extends StatelessWidget {
   const MyWidget({super.key});
 
   @override
@@ -50,4 +58,4 @@ class MyWidget extends StatelessWidget {
       ),
     );
   }
-}
+}*/

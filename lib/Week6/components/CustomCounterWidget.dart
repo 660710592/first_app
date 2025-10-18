@@ -29,20 +29,14 @@ class _CustomcounterwidgetState extends State<Customcounterwidget> {
         color: widget.backgroundColor,
         borderRadius: BorderRadius.circular(10),
       ),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Text(
-            '${widget.title}: $_counter',
-            style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-          ),
-          const SizedBox(height: 16),
-          ElevatedButton(
-            onPressed: _incrementCounter,
-            child: const Text('Increment'),
-          ),
-        ],
-      ),
+      child: Column(mainAxisAlignment: MainAxisAlignment.center,children: [
+        Text(
+          '${widget.title}: $_counter',
+          style: const TextStyle(fontSize: 24,fontWeight: FontWeight.bold),
+        ),
+        const SizedBox(height: 16,),
+        ElevatedButton(onPressed: _incrementCounter, child: const Text('Increment'))
+      ],),
     );
   }
 }

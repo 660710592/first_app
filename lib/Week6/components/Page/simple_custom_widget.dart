@@ -14,7 +14,7 @@ class _SimpleCustomWidgetState extends State<SimpleCustomWidget> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('custom widget')),
+      appBar: AppBar(title: Text('custom widget'), centerTitle: true),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
